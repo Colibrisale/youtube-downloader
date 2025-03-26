@@ -6,16 +6,10 @@ const path = require("path");
 const app = express();
 app.use(cors());
 
-app.get("/", (req, res) => {
-  res.send("YouTube Downloader Server is Running 🚀");
-});
+// 👇 Вот эта строка говорит серверу отдавать HTML из папки public
+app.use(express.static(path.join(__dirname, "public")));
 
-// отдаём HTML интерфейс
-app.get("/ui", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
-});
-
-// логика скачивания
+// 🔻 Это и есть логика загрузки YouTube
 app.get("/download", async (req, res) => {
   const videoURL = req.query.url;
   const format = req.query.format || "mp4";
@@ -40,4 +34,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ Server is running on port ${PORT}`);
 });
-
